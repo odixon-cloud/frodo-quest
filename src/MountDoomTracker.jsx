@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import lorMap from "./assets/lor-map.jpeg";
 
 const STORAGE_KEY = "mount-doom-tracker-v9";
 
@@ -13,16 +14,22 @@ const MILESTONES = [
 ];
 
 function getUnlockedMilestone(miles) {
-  return [...MILESTONES].reverse().find(m => miles >= m.miles) || MILESTONES[0];
+  return [...MILESTONES].reverse().find((m) => miles >= m.miles) || MILESTONES[0];
 }
 
 function getNextMilestone(miles) {
-  return MILESTONES.find(m => m.miles > miles) || null;
+  return MILESTONES.find((m) => m.miles > miles) || null;
 }
 
 function fmtDateTime(iso) {
   const d = new Date(iso);
-  return d.toLocaleString(undefined, { month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" });
+  return d.toLocaleString(undefined, {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    hour: "numeric",
+    minute: "2-digit"
+  });
 }
 
 export default function MountDoomTracker() {
@@ -48,10 +55,7 @@ export default function MountDoomTracker() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({ entries }));
   }, [entries]);
 
-  const totalMiles = useMemo(
-    () => entries.reduce((sum, e) => sum + e.miles, 0),
-    [entries]
-  );
+  const totalMiles = useMemo(() => entries.reduce((sum, e) => sum + e.miles, 0), [entries]);
 
   const currentMilestone = useMemo(() => getUnlockedMilestone(totalMiles), [totalMiles]);
   const nextMilestone = useMemo(() => getNextMilestone(totalMiles), [totalMiles]);
@@ -85,7 +89,7 @@ export default function MountDoomTracker() {
     const prevUnlocked = getUnlockedMilestone(prevTotal);
     const nextUnlocked = getUnlockedMilestone(nextTotal);
 
-    setEntries(prev => [
+    setEntries((prev) => [
       ...prev,
       { id: crypto.randomUUID(), miles: value, date: new Date().toISOString(), edited: false }
     ]);
@@ -98,7 +102,7 @@ export default function MountDoomTracker() {
 
   const deleteLast = () => {
     if (!lastEntry) return;
-    setEntries(prev => prev.slice(0, -1));
+    setEntries((prev) => prev.slice(0, -1));
     setIsEditingLast(false);
     setEditMiles("");
     setToast(null);
@@ -120,7 +124,7 @@ export default function MountDoomTracker() {
     const prevUnlocked = getUnlockedMilestone(prevTotal);
     const nextUnlocked = getUnlockedMilestone(nextTotal);
 
-    setEntries(prev => {
+    setEntries((prev) => {
       const next = [...prev];
       next[next.length - 1] = { ...next[next.length - 1], miles: value, edited: true };
       return next;
@@ -140,32 +144,29 @@ export default function MountDoomTracker() {
   };
 
   // LOTR-ish palette (earth + parchment + gold)
-const C = {
-  bg: "#2f6f73",            // blue-green background
+  const C = {
+    bg: "#584226",
+    card: "#ca7826",
+    border: "#bdb7a6",
+    ink: "#2b2418",
+    muted: "rgba(43,36,24,.72)",
+    accent: "#1f5b4d",
+    accent2: "#7a5a2a",
+    gold: "#b08d2a",
+    danger: "#7a2d2d",
+    shadow: "0 18px 40px rgba(0,0,0,0.35)",
+    dataBg: "rgba(61, 131, 223, 0.85)",
+    dataBorder: "rgba(120, 160, 210, 0.35)"
+  };
 
-  // DARKER CARDS (aged parchment / stone)
-  card: "#ca7826",          // darker parchment
-  border: "#bdb7a6",
+  const page = {
+    maxWidth: "100%",
+    margin: "0 auto",
+    fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, sans-serif",
+    padding: 18,
+    color: C.ink
+  };
 
-  ink: "#2b2418",
-  muted: "rgba(43,36,24,.72)",
-
-  accent: "#1f5b4d",        // elven green
-  accent2: "#7a5a2a",
-  gold: "#b08d2a",
-  danger: "#7a2d2d",
-
-  shadow: "0 18px 40px rgba(0,0,0,0.35)",
-
-  // INNER DATA BOXES — dark blue / river / night sky
-  dataBg: "rgba(61, 131, 223, 0.85)",
-  dataBorder: "rgba(120, 160, 210, 0.35)"
-};
-
-
-
-
-  const page = { maxWidth: "100%", margin: "0 auto", fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, sans-serif", padding: 18, color: C.ink };
   const header = { display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 12 };
   const title = { margin: 0, letterSpacing: 0.2 };
   const grid = { display: "grid", gridTemplateColumns: "3fr 1fr", gap: 16, alignItems: "start" };
@@ -208,6 +209,7 @@ const C = {
   };
 
   const list = { margin: 0, paddingLeft: 0, listStyle: "none" };
+
   const milestoneRow = (isCurrent) => ({
     padding: "10px 10px",
     borderRadius: 12,
@@ -228,13 +230,28 @@ const C = {
   });
 
   return (
-    <div style={{ background: "hotpink", minHeight: "100vh" }}>
-
+    <div style={{ background: C.bg, minHeight: "100vh" }}>
       <div style={page}>
         <div style={header}>
-          <h2 style={title}>Dixon’s Journey to Mount Doom</h2>
-          <div style={{ fontSize: 14, color: C.muted }}>
-            Total: <span style={{ color: C.ink, fontWeight: 800 }}>{totalMiles.toFixed(1)}</span> miles
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <img
+              src={lorMap}
+              alt="Map of Middle-earth"
+              style={{ height: 200, width: "auto", borderRadius: 6 }}
+            />
+
+            {/* Adjust header title color here */}
+            <h2 style={{ ...title, color: "#d4af37" }}>
+              Dixon’s Journey to Mount Doom
+            </h2>
+          </div>
+
+          <div style={{ fontSize: 20, color: C.muted }}>
+            Total:{" "}
+            <span style={{ color: C.ink, fontWeight: 800 }}>
+              {totalMiles.toFixed(1)}
+            </span>{" "}
+            miles
           </div>
         </div>
 
@@ -252,7 +269,13 @@ const C = {
                 <div style={label}>Miles to next</div>
                 <div style={big}>{nextMilestone ? milesToNext.toFixed(1) : "0.0"}</div>
                 <div style={{ fontSize: 13, color: C.muted }}>
-                  {nextMilestone ? <>Next: <strong style={{ color: C.ink }}>{nextMilestone.name}</strong></> : <>You made it 🎉</>}
+                  {nextMilestone ? (
+                    <>
+                      Next: <strong style={{ color: C.ink }}>{nextMilestone.name}</strong>
+                    </>
+                  ) : (
+                    <>You made it 🎉</>
+                  )}
                 </div>
               </div>
               <div>
@@ -262,7 +285,7 @@ const C = {
                 </div>
               </div>
             </div>
-
+                    
             <div style={{ marginTop: 14 }}>
               <div style={label}>Progress to next milestone</div>
               <div style={barWrap}>
@@ -281,7 +304,7 @@ const C = {
                   type="number"
                   placeholder="Miles walked"
                   value={inputMiles}
-                  onChange={e => setInputMiles(e.target.value)}
+                  onChange={(e) => setInputMiles(e.target.value)}
                 />
                 <button style={btnPrimary} onClick={addMiles}>Add</button>
               </div>
@@ -304,7 +327,7 @@ const C = {
                     style={inputStyle}
                     type="number"
                     value={editMiles}
-                    onChange={e => setEditMiles(e.target.value)}
+                    onChange={(e) => setEditMiles(e.target.value)}
                     placeholder="New miles for last entry"
                   />
                   <button style={btnPrimary} onClick={saveEditLast}>Save</button>
@@ -323,7 +346,7 @@ const C = {
 
             <div style={{ marginTop: 12 }}>
               <ul style={list}>
-                {MILESTONES.map(m => {
+                {MILESTONES.map((m) => {
                   const left = Math.max(0, m.miles - totalMiles);
                   const unlocked = left === 0;
                   const isCurrent = currentMilestone.id === m.id;
@@ -367,7 +390,7 @@ const C = {
             </p>
           ) : (
             <ul style={{ ...list, marginTop: 12 }}>
-              {[...entries].reverse().map(e => (
+              {[...entries].reverse().map((e) => (
                 <li
                   key={e.id}
                   style={{
@@ -383,7 +406,11 @@ const C = {
                 >
                   <div style={{ fontWeight: 800 }}>
                     {e.miles} <span style={{ fontWeight: 600, color: C.muted }}>mi</span>
-                    {e.edited ? <span style={{ marginLeft: 8, ...pill("rgba(122,45,45,0.10)", C.danger) }}>edited</span> : null}
+                    {e.edited ? (
+                      <span style={{ marginLeft: 8, ...pill("rgba(122,45,45,0.10)", C.danger) }}>
+                        edited
+                      </span>
+                    ) : null}
                   </div>
                   <div style={{ fontSize: 13, color: C.muted }}>{fmtDateTime(e.date)}</div>
                 </li>
