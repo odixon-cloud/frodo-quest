@@ -165,7 +165,7 @@ const C = {
 
 
 
-  const page = { maxWidth: 1020, margin: "0 auto", fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, sans-serif", padding: 18, color: C.ink };
+  const page = { maxWidth: "100%", margin: "0 auto", fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, sans-serif", padding: 18, color: C.ink };
   const header = { display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 12 };
   const title = { margin: 0, letterSpacing: 0.2 };
   const grid = { display: "grid", gridTemplateColumns: "3fr 1fr", gap: 16, alignItems: "start" };
