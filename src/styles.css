@@ -1,0 +1,194 @@
+:root {
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: #e5e7eb;
+  background: radial-gradient(1200px 600px at 20% 0%, #1f2937, #0b1020);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 18px;
+}
+
+.card {
+  background: rgba(17, 24, 39, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+}
+
+.grid { display: grid; gap: 14px; }
+@media (min-width: 860px) { .grid.cols2 { grid-template-columns: 1.1fr 0.9fr; } }
+
+.h1 { font-size: 22px; margin: 0 0 6px 0; letter-spacing: 0.2px; }
+.sub { margin: 0; color: rgba(229, 231, 235, 0.78); font-size: 14px; }
+
+.row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+
+label { font-size: 13px; color: rgba(229, 231, 235, 0.85); }
+
+input, button {
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.18);
+  color: #e5e7eb;
+  padding: 10px 12px;
+  font-size: 14px;
+}
+
+input[type="number"] { width: 140px; }
+input[type="date"] { width: 170px; }
+
+button { cursor: pointer; background: rgba(255, 255, 255, 0.06); }
+button.primary { background: rgba(59, 130, 246, 0.22); border-color: rgba(59, 130, 246, 0.35); }
+button.danger { background: rgba(239, 68, 68, 0.18); border-color: rgba(239, 68, 68, 0.30); }
+
+.small { font-size: 12px; color: rgba(229, 231, 235, 0.75); }
+.hr { height: 1px; background: rgba(255, 255, 255, 0.08); margin: 12px 0; }
+
+.progressWrap {
+  height: 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.22);
+  overflow: hidden;
+}
+
+.progressBar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, rgba(16, 185, 129, 0.35), rgba(59, 130, 246, 0.35));
+}
+
+.milestone {
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(0, 0, 0, 0.16);
+  display: grid;
+  gap: 4px;
+}
+
+.milestone.locked { opacity: 0.55; }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.toast {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  background: rgba(16, 185, 129, 0.12);
+}
+.mapWrap {
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(0, 0, 0, 0.14);
+}
+
+.mapHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.mapTrack {
+  position: relative;
+  height: 84px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(0, 0, 0, 0.20);
+  overflow: hidden;
+}
+
+.mapLine {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  top: 50%;
+  height: 3px;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+}
+
+.mapProgress {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  height: 3px;
+  transform: translateY(-50%);
+  background: rgba(16, 185, 129, 0.45);
+  border-radius: 999px;
+}
+
+.mapDot {
+  position: absolute;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  transform: translate(-50%, -50%);
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.18);
+  cursor: pointer;
+}
+
+.mapDot.unlocked {
+  background: rgba(16, 185, 129, 0.28);
+  border-color: rgba(16, 185, 129, 0.45);
+}
+
+.mapDotLabel {
+  position: absolute;
+  top: calc(50% + 14px);
+  transform: translateX(-50%);
+  font-size: 11px;
+  color: rgba(229, 231, 235, 0.75);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.youAreHere {
+  position: absolute;
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  transform: translate(-50%, -50%);
+  border-radius: 999px;
+  background: rgba(59, 130, 246, 0.45);
+  border: 1px solid rgba(59, 130, 246, 0.55);
+  box-shadow: 0 0 0 6px rgba(59, 130, 246, 0.12);
+}
+
+.mapPopup {
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(0, 0, 0, 0.18);
+  display: grid;
+  gap: 6px;
+}
